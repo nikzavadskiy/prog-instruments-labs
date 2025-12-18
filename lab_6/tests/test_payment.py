@@ -3,7 +3,7 @@ from unittest.mock import patch, Mock
 from src.payment import PaymentProcessor
 
 class TestPayment:
-    @patch('requests.get')
+    @patch('src.payment.requests', create=True)
     def test_convert_price_success(self, mock_get):
         mock_response = Mock()
         mock_response.status_code = 200
@@ -16,7 +16,7 @@ class TestPayment:
         assert result == 50.0
         mock_get.assert_called_once()
 
-    @patch('requests.get')
+    @patch('src.payment.requests', create=True)
     def test_convert_price_api_error(self, mock_get):
         mock_get.return_value.status_code = 500
         
