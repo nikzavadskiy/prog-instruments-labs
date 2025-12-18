@@ -4,11 +4,11 @@ from src.payment import PaymentProcessor
 
 class TestPayment:
     @patch('src.payment.requests', create=True)
-    def test_convert_price_success(self, mock_get):
+    def test_convert_price_success(self, mock_requests):
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.json.return_value = {"rate": 0.5}
-        mock_get.return_value = mock_response
+        mock_requests.get.return_value = mock_response
 
         processor = PaymentProcessor("http://fake.api")
         result = processor.convert_price(100, "USD")
@@ -17,8 +17,10 @@ class TestPayment:
         mock_get.assert_called_once()
 
     @patch('src.payment.requests', create=True)
-    def test_convert_price_api_error(self, mock_get):
-        mock_get.return_value.status_code = 500
+    def test_convert_price_api_error(self, mock_requests):
+        mock_response = Mock()
+        mock_response.status_code = 500
+        mock_requests.get.return_value = mock_response
         
         processor = PaymentProcessor("http://fake.api")
         with pytest.raises(Exception, match="API Error"):
