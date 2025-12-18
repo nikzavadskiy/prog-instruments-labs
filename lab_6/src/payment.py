@@ -1,4 +1,7 @@
-import requests
+try:
+    import requests
+except ImportError:
+    requests = None
 
 class PaymentProcessor:
     def __init__(self, api_url: str):
