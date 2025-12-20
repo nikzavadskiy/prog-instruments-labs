@@ -1,11 +1,11 @@
-import sys
 import random
 import string
+import sys
 
 
 alphabet = "abcdefghijklmnopqrstuvwxyz"
-ALPHABET_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-polybiusSquare = [
+alphabet_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+polybius_square = [
     ['a', 'b', 'c', 'd', 'e'],
     ['f', 'g', 'h', 'i', 'k'],
     ['l', 'm', 'n', 'o', 'p'],
@@ -218,4 +218,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
