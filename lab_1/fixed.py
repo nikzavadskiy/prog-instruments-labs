@@ -15,60 +15,60 @@ polybius_square = [
 DEBUG = True
 
 
-def getKeyStream(key, text):
+def get_key_stream(key, text):
     """
     Generate a keystream for the Vigenere cipher.
     """
-    keyStream = []
+    key_stream = []
     ki = 0
     for i in range(len(text)):
         if text[i].isalpha():
-            keyStream.append(key[ki % len(key)])
+            key_stream.append(key[ki % len(key)])
             ki += 1
         else:
-            keyStream.append(text[i])
-    return keyStream
+            key_stream.append(text[i])
+    return key_stream
 
 
-def encryptVigenere(text, key):
+def encrypt_vigenere(text, key):
     """
     Encrypt text using the Vigenere cipher.
     """
     result = ""
-    keyStream = getKeyStream(key, text)
+    key_stream = getKeyStream(key, text)
     for i in range(len(text)):
         ch = text[i]
         if ch.islower():
             pi = alphabet.index(ch)
-            ki = alphabet.index(keyStream[i].lower())
+            ki = alphabet.index(key_stream[i].lower())
             ci = (pi + ki) % 26
             result += alphabet[ci]
         elif ch.isupper():
-            pi = ALPHABET_UPPER.index(ch)
-            ki = ALPHABET_UPPER.index(keyStream[i].upper())
+            pi = alphabet_upper.index(ch)
+            ki = alphabet_upper.index(key_stream[i].upper())
             ci = (pi + ki) % 26
-            result += ALPHABET_UPPER[ci]
+            result += alphabet_upper[ci]
         else:
             result += ch
     return result
 
 
-def decryptVigenere(text, key):
+def decrypt_vigenere(text, key):
     """
     Decrypt text encrypted with the Vigenere cipher.
     """
     result = ""
-    keyStream = getKeyStream(key, text)
+    key_stream = get_key_stream(key, text)
     for i in range(len(text)):
         ch = text[i]
         if ch.islower():
             ci = alphabet.index(ch)
-            ki = alphabet.index(keyStream[i].lower())
+            ki = alphabet.index(key_stream[i].lower())
             pi = (ci - ki) % 26
             result += alphabet[pi]
         elif ch.isupper():
-            ci = ALPHABET_UPPER.index(ch)
-            ki = alphabet.index(keyStream[i].lower())
+            ci = alphabet_upper.index(ch)
+            ki = alphabet.index(key_stream[i].lower())
             pi = (ci - ki) % 26
             result += alphabet[pi]
         else:
@@ -76,7 +76,7 @@ def decryptVigenere(text, key):
     return result
 
 
-def findInSquare(ch):
+def find_in_square(ch):
     """
     Find coordinates of a character in the Polybius square.
     """
@@ -84,12 +84,12 @@ def findInSquare(ch):
         ch = 'i'
     for i in range(5):
         for j in range(5):
-            if polybiusSquare[i][j] == ch:
+            if polybius_square[i][j] == ch:
                 return i + 1, j + 1
     return None, None
 
 
-def encryptPolybius(text):
+def encrypt_polybius(text):
     """
     Encrypt text using the Polybius square cipher.
     """
@@ -104,7 +104,7 @@ def encryptPolybius(text):
     return res.strip()
 
 
-def decryptPolybius(code):
+def decrypt_polybius(code):
     """
     Decrypt a Polybius square encoded message.
     """
@@ -115,13 +115,13 @@ def decryptPolybius(code):
             r = int(p[0]) - 1
             c = int(p[1]) - 1
             if 0 <= r < 5 and 0 <= c < 5:
-                res += polybiusSquare[r][c]
+                res += polybius_square[r][c]
         else:
             res += p
     return res
 
 
-def encryptCaesar(text, shift):
+def encrypt_caesar(text, shift):
     """
     Encrypt text using the Caesar cipher.
     """
@@ -131,14 +131,14 @@ def encryptCaesar(text, shift):
             i = alphabet.index(ch)
             res += alphabet[(i + shift) % 26]
         elif ch.isupper():
-            i = ALPHABET_UPPER.index(ch)
-            res += ALPHABET_UPPER[(i + shift) % 26]
+            i = alphabet_upper.index(ch)
+            res += alphabet_upper[(i + shift) % 26]
         else:
             res += ch
     return res
 
 
-def decryptCaesar(text, shift):
+def decrypt_caesar(text, shift):
     """
     Decrypt text encrypted with the Caesar cipher.
     """
@@ -148,14 +148,14 @@ def decryptCaesar(text, shift):
             i = alphabet.index(ch)
             res += alphabet[(i - shift) % 26]
         elif ch.isupper():
-            i = ALPHABET_UPPER.index(ch)
-            res += ALPHABET_UPPER[(i - shift) % 26]
+            i = alphabet_upper.index(ch)
+            res += alphabet_upper[(i - shift) % 26]
         else:
             res += ch
     return res
 
 
-def printMenu():
+def print_menu():
     """Print the command-line menu."""
     print("1 Vigenere encrypt")
     print("2 Vigenere decrypt")
@@ -166,35 +166,35 @@ def printMenu():
     print("7 Exit")
 
 
-def doStuff():
+def do_stuff():
     """
     Run the interactive command-line interface.
     """
     while True:
-        printMenu()
+        print_menu()
         c = input("Choice:")
         if c == "1":
             t = input("Text:")
             k = input("Key:")
-            print(encryptVigenere(t, k))
+            print(encrypt_vigenere(t, k))
         elif c == "2":
             t = input("Text:")
             k = input("Key:")
-            print(decryptVigenere(t, k))
+            print(decrypt_vigenere(t, k))
         elif c == "3":
             t = input("Text:")
-            print(encryptPolybius(t))
+            print(encrypt_polybius(t))
         elif c == "4":
             t = input("Code:")
-            print(decryptPolybius(t))
+            print(decrypt_polybius(t))
         elif c == "5":
             t = input("Text:")
             s = int(input("Shift:"))
-            print(encryptCaesar(t, s))
+            print(encrypt_caesar(t, s))
         elif c == "6":
             t = input("Text:")
             s = int(input("Shift:"))
-            print(decryptCaesar(t, s))
+            print(decrypt_caesar(t, s))
         elif c == "7":
             break
         else:
@@ -207,16 +207,17 @@ def main():
     """
     if len(sys.argv) > 1:
         if sys.argv[1] == "test":
-            testVigenere()
-            testPolybius()
+            test_vigenere()
+            test_polybius()
         elif sys.argv[1] == "demo":
             autoDemo()
         else:
-            doStuff()
+            do_stuff()
     else:
-        doStuff()
+        do_stuff()
 
 
 if __name__ == "__main__":
 
     main()
+
