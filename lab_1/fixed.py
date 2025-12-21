@@ -3,9 +3,9 @@ import string
 import sys
 
 
-alphabet = "abcdefghijklmnopqrstuvwxyz"
-alphabet_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-polybius_square = [
+ALPHABET = "abcdefghijklmnopqrstuvwxyz"
+ALPHABET_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+POLIBIUS_SQUARE = [
     ['a', 'b', 'c', 'd', 'e'],
     ['f', 'g', 'h', 'i', 'k'],
     ['l', 'm', 'n', 'o', 'p'],
@@ -39,15 +39,15 @@ def encrypt_vigenere(text, key):
     for i in range(len(text)):
         ch = text[i]
         if ch.islower():
-            pi = alphabet.index(ch)
-            ki = alphabet.index(key_stream[i].lower())
+            pi = ALPHABET.index(ch)
+            ki = ALPHABET.index(key_stream[i].lower())
             ci = (pi + ki) % 26
-            result += alphabet[ci]
+            result += ALPHABET[ci]
         elif ch.isupper():
-            pi = alphabet_upper.index(ch)
-            ki = alphabet_upper.index(key_stream[i].upper())
+            pi = ALPHABET_UPPER.index(ch)
+            ki = ALPHABET_UPPER.index(key_stream[i].upper())
             ci = (pi + ki) % 26
-            result += alphabet_upper[ci]
+            result += ALPHABET_UPPER[ci]
         else:
             result += ch
     return result
@@ -62,15 +62,15 @@ def decrypt_vigenere(text, key):
     for i in range(len(text)):
         ch = text[i]
         if ch.islower():
-            ci = alphabet.index(ch)
-            ki = alphabet.index(key_stream[i].lower())
+            ci = ALPHABET.index(ch)
+            ki = ALPHABET.index(key_stream[i].lower())
             pi = (ci - ki) % 26
-            result += alphabet[pi]
+            result += ALPHABET[pi]
         elif ch.isupper():
-            ci = alphabet_upper.index(ch)
-            ki = alphabet.index(key_stream[i].lower())
+            ci = ALPHABET_UPPER.index(ch)
+            ki = ALPHABET.index(key_stream[i].lower())
             pi = (ci - ki) % 26
-            result += alphabet[pi]
+            result += ALPHABET[pi]
         else:
             result += ch
     return result
@@ -84,7 +84,7 @@ def find_in_square(ch):
         ch = 'i'
     for i in range(5):
         for j in range(5):
-            if polybius_square[i][j] == ch:
+            if POLIBIUS_SQUARE[i][j] == ch:
                 return i + 1, j + 1
     return None, None
 
@@ -115,7 +115,7 @@ def decrypt_polybius(code):
             r = int(p[0]) - 1
             c = int(p[1]) - 1
             if 0 <= r < 5 and 0 <= c < 5:
-                res += polybius_square[r][c]
+                res += POLIBIUS_SQUARE[r][c]
         else:
             res += p
     return res
@@ -128,11 +128,11 @@ def encrypt_caesar(text, shift):
     res = ""
     for ch in text:
         if ch.islower():
-            i = alphabet.index(ch)
-            res += alphabet[(i + shift) % 26]
+            i = ALPHABET.index(ch)
+            res += ALPHABET[(i + shift) % 26]
         elif ch.isupper():
-            i = alphabet_upper.index(ch)
-            res += alphabet_upper[(i + shift) % 26]
+            i = ALPHABET_UPPER.index(ch)
+            res += ALPHABET_UPPER[(i + shift) % 26]
         else:
             res += ch
     return res
@@ -145,11 +145,11 @@ def decrypt_caesar(text, shift):
     res = ""
     for ch in text:
         if ch.islower():
-            i = alphabet.index(ch)
-            res += alphabet[(i - shift) % 26]
+            i = ALPHABET.index(ch)
+            res += v[(i - shift) % 26]
         elif ch.isupper():
-            i = alphabet_upper.index(ch)
-            res += alphabet_upper[(i - shift) % 26]
+            i = ALPHABET_UPPER.index(ch)
+            res += ALPHABET_UPPER[(i - shift) % 26]
         else:
             res += ch
     return res
@@ -220,4 +220,5 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
